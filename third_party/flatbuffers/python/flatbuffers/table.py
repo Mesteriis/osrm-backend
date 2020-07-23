@@ -60,8 +60,7 @@ class Table(object):
 
         off += self.Pos
         off += encode.Get(N.UOffsetTFlags.packer_type, self.Bytes, off)
-        ret = encode.Get(N.UOffsetTFlags.packer_type, self.Bytes, off)
-        return ret
+        return encode.Get(N.UOffsetTFlags.packer_type, self.Bytes, off)
 
     def Vector(self, off):
         """Vector retrieves the start of data of the vector whose offset is

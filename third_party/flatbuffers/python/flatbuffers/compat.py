@@ -15,6 +15,7 @@
 """ A tiny version of `six` to help with backwards compability. Also includes
  compatibility helpers for numpy. """
 
+
 import sys
 import imp
 
@@ -33,10 +34,7 @@ if PY3:
     struct_bool_decl = "?"
 else:
     string_types = (unicode,)
-    if PY26 or PY27:
-        binary_types = (str,bytearray)
-    else:
-        binary_types = (str,)
+    binary_types = (str, bytearray) if PY26 or PY27 else (str, )
     range_func = xrange
     if PY26 or (PY27 and not PY275):
         memoryview_type = buffer

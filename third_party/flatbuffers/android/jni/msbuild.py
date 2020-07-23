@@ -50,7 +50,7 @@ def compare_version(a, b):
   """
   aa = string.split(a, ".")
   bb = string.split(b, ".")
-  for i in range(0, 4):
+  for i in range(4):
     if aa[i] != bb[i]:
       return cmp(int(aa[i]), int(bb[i]))
   return 0

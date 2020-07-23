@@ -22,7 +22,7 @@ def load_db(filename):
     total = len(compilation_database_entries)
     entry = 0
     for compilation_entry in compilation_database_entries:
-        entry = entry + 1
+        entry += 1
         compilation_database[compilation_entry["file"]] = [ p.strip() for p in compilation_database_pattern.findall(compilation_entry["command"]) ]
     return compilation_database
 

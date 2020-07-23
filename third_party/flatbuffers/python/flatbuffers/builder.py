@@ -302,7 +302,7 @@ class Builder(object):
 
     def Pad(self, n):
         """Pad places zeros at the current offset."""
-        for i in range_func(n):
+        for _ in range_func(n):
             self.Place(0, N.Uint8Flags)
 
     def Prep(self, size, additionalBytes):
@@ -744,9 +744,7 @@ def vtableEqual(a, objectStart, b):
         x = encode.Get(packer.voffset, b, i * N.VOffsetTFlags.bytewidth)
 
         # Skip vtable entries that indicate a default value.
-        if x == 0 and elem == 0:
-            pass
-        else:
+        if x != 0 or elem != 0:
             y = objectStart - elem
             if x != y:
                 return False

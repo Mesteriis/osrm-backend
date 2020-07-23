@@ -1559,7 +1559,7 @@ class TestFixedLengthArrays(unittest.TestCase):
         builder = flatbuffers.Builder(0)
 
         a = 0.5
-        b = range(0, 15)
+        b = range(15)
         c = 1
         d_a = [[1, 2], [3, 4]]
         d_b = [MyGame.Example.TestEnum.TestEnum.B, \
@@ -1618,7 +1618,7 @@ def CheckAgainstGoldDataGo():
         f.close()
 
         CheckReadBuffer(bytearray(go_wire_data), 0)
-        if not bytearray(gen_buf[gen_off:]) == bytearray(go_wire_data):
+        if bytearray(gen_buf[gen_off:]) != bytearray(go_wire_data):
             raise AssertionError('CheckAgainstGoldDataGo failed')
     except:
         print('Failed to test against Go-generated test data.')
@@ -1759,7 +1759,7 @@ def backward_compatible_run_tests(**kwargs):
         try:
             unittest.main(**kwargs)
         except SystemExit as e:
-            if not e.code == 0:
+            if e.code != 0:
                 return False
         return True
 
@@ -1767,24 +1767,21 @@ def backward_compatible_run_tests(**kwargs):
     kwargs['exit'] = False
     kwargs['verbosity'] = 0
     ret = unittest.main(**kwargs)
-    if ret.result.errors or ret.result.failures:
-        return False
-
-    return True
+    return not ret.result.errors and not ret.result.failures
 
 def main():
     import os
     import sys
-    if not len(sys.argv) == 4:
-       sys.stderr.write('Usage: %s <benchmark vtable count>'
-                        '<benchmark read count> <benchmark build count>\n'
-                        % sys.argv[0])
-       sys.stderr.write('       Provide COMPARE_GENERATED_TO_GO=1   to check'
-                        'for bytewise comparison to Go data.\n')
-       sys.stderr.write('       Provide COMPARE_GENERATED_TO_JAVA=1 to check'
-                        'for bytewise comparison to Java data.\n')
-       sys.stderr.flush()
-       sys.exit(1)
+    if len(sys.argv) != 4:
+        sys.stderr.write('Usage: %s <benchmark vtable count>'
+                         '<benchmark read count> <benchmark build count>\n'
+                         % sys.argv[0])
+        sys.stderr.write('       Provide COMPARE_GENERATED_TO_GO=1   to check'
+                         'for bytewise comparison to Go data.\n')
+        sys.stderr.write('       Provide COMPARE_GENERATED_TO_JAVA=1 to check'
+                         'for bytewise comparison to Java data.\n')
+        sys.stderr.flush()
+        sys.exit(1)
 
     kwargs = dict(argv=sys.argv[:-3])
 
